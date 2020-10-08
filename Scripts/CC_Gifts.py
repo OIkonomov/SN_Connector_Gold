@@ -1,0 +1,39 @@
+TYPE = "Player"
+CREDENTIAL = "YES"
+FILTER = "NO"
+SILO = "NO"
+REALM = "NO"
+DATE = "YES"
+
+SQL_REQ =   '''
+SELECT
+    DATE(T_Hermes.CLIENT_TIME) AS DATE,
+    MAX(T_Hermes.CLIENT_TIME) AS DATE_TIME,
+    T_Hermes.EVENT_DATA:gift_source::STRING AS SENDER,
+    T_Hermes.COUNTRY AS COUNTRY,
+    T_Hermes.DATA_CENTER_ID AS SILO,
+    T_Hermes.USER_ID AS DEVICE,
+    T_Hermes.FED_ID AS FED,
+    T_Hermes.EVENT_DATA:progress_index01::INT AS HERO_LEVEL,
+    T_Hermes.EVENT_DATA:progress_index02::INT AS CASTLE_LEVEL,
+    T_Hermes.EVENT_DATA:item_name01::INT AS ITEM_ID,
+    T_Element.NAME AS ITEM_NAME,
+    SUM(T_Hermes.EVENT_DATA:item_amount01::INT) AS TOTAL_RECEIVED,
+    SUM(T_HERMES.EVENT_DATA:hard_currency_earned::INT) AS GOLD_RECEIVED,
+    SUM(T_HERMES.EVENT_DATA:soft_currency1_earned::INT) AS FOOD_RECEIVED,
+    SUM(T_HERMES.EVENT_DATA:soft_currency2_earned::INT) AS WOOD_RECEIVED,
+    SUM(T_HERMES.EVENT_DATA:soft_currency3_earned::INT) AS STONE_RECEIVED,
+    SUM(T_HERMES.EVENT_DATA:soft_currency4_earned::INT) AS IRON_RECEIVED,
+    SUM(T_HERMES.EVENT_DATA:soft_currency5_earned::INT) AS SILVER_RECEIVED
+FROM "ELEPHANT_DB"."MOE"."HERMES_MESSAGE_RECEIVED_RAW" AS T_Hermes
+LEFT JOIN "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element
+    ON (T_Hermes.EVENT_DATA:item_name01::INT = T_Element.ID)
+WHERE
+    DATE(CLIENT_TIME) > '{st_date}'
+    AND DATE(CLIENT_TIME) < '{end_date}'
+    AND FED_ID = '{account}'
+GROUP BY 1,3,4,5,6,7,8,9,10,11
+ORDER BY 2,8
+LIMIT 1000
+;
+'''
