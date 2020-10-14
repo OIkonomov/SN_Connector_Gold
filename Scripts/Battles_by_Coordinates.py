@@ -13,6 +13,6 @@ WHERE
     AND CLIENT_TIME < '{end_date}'
     AND REALM_ID = {realm}
 ORDER BY CLIENT_TIME
-LIMIT 1000
+LIMIT 10000
 ;
 '''
