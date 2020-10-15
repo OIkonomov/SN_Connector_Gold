@@ -3,7 +3,7 @@ CREDENTIAL = "NO"
 FILTER = "IP"
 SILO = "NO"
 REALM = "NO"
-DATE = "NO"
+DATE = "YES"
 
 SQL_REQ =   '''
 SELECT DISTINCT
@@ -37,8 +37,9 @@ LEFT JOIN "ELEPHANT_DB"."MOE"."INVENTORY_STATUS_RAW" AS T_InventoryStatus
 LEFT JOIN "ELEPHANT_DB"."DIMENSIONS"."COUNTRY" AS T_Country
     ON (T_InventoryStatus.COUNTRY = T_Country.CODE)
 WHERE
-    "DEVICE" > 0
-    AND T_PlayerConection.CLIENT_TIME > '2020-01-01'
+    T_PlayerConection.CLIENT_TIME >= '{st_date}'
+    AND T_PlayerConection.CLIENT_TIME < '{end_date}'
+    AND "DEVICE" > 0
     AND "IP" LIKE '{filter_value}'
 GROUP BY 1,2,3,4,5,8,9,10,11
 ORDER BY LAST_SEEN DESC
