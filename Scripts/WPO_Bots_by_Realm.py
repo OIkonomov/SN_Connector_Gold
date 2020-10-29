@@ -1,0 +1,38 @@
+TYPE = "Alliance"
+CREDENTIAL = "NO"
+FILTER = "MIN HOURS PLAYED"
+SILO = "YES"
+REALM = "YES"
+DATE = "YES"
+
+SQL_REQ = '''
+SELECT
+    DATE(T_AI_1.CLIENT_TIME) AS "DATE",
+    T_AI_1.FED_ID AS "FED",
+    MAX(HSM) AS "TOTAL_HOURS",
+    COUNT(EVENT_DATA:march_id) AS "TOTAL_MARCHES"
+FROM "ELEPHANT_DB"."WPO"."ARMY_INTERACTION_RAW" AS T_AI_1
+JOIN (SELECT
+        FED_ID AS "FED",
+            DATE(CLIENT_TIME) AS "DATE",
+            COUNT(DISTINCT(HOUR(CLIENT_TIME))) AS "HSM"
+      FROM "ELEPHANT_DB"."WPO"."ARMY_INTERACTION_RAW"
+      WHERE
+        CLIENT_TIME >= '{st_date}'
+            AND CLIENT_TIME < '{end_date}'
+            AND EVENT_DATA:army_int::INT = 260094
+      GROUP BY 1, 2) AS T_AI_2
+      ON (T_AI_1.FED_ID = T_AI_2.FED
+          AND DATE(T_AI_1.CLIENT_TIME) = T_AI_2."DATE")
+WHERE 
+    T_AI_1.CLIENT_TIME >= '{st_date}'
+        AND T_AI_1.CLIENT_TIME < '{end_date}'
+        AND T_AI_1.DATA_CENTER_ID LIKE '{silo}'
+        AND T_AI_1.EVENT_DATA:realm_id_current::INT = '{realm}'
+        AND T_AI_1.EVENT_DATA:army_int::INT = 260094
+GROUP BY 1, 2
+HAVING TOTAL_HOURS >= '{filter_value}'
+ORDER BY DATE ASC, TOTAL_HOURS DESC
+LIMIT 10000
+;
+'''

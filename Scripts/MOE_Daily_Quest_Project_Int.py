@@ -1,0 +1,76 @@
+TYPE = "Player"
+CREDENTIAL = "YES"
+FILTER = "NO"
+SILO = "YES"
+REALM = "NO"
+DATE = "YES"
+
+SQL_REQ =   '''
+SELECT
+    DATE(T_DQP.CLIENT_TIME) AS "DATE",
+    T_DQP.DATA_CENTER_ID AS "SILO",
+    T_DQP.EVENT_DATA:realm_id_current::INT AS "REALM",
+    T_DQP.FED_ID AS "FED",
+    T_Element_5.NAME AS "QUEST_TYPE",
+    T_Element_4.NAME AS "QUEST_NAME",
+    T_DQP.EVENT_DATA:quest_progress::INT AS "QUEST_PROGRESS",
+    T_DQP.EVENT_DATA:quest_data::STRING AS "QUEST_DATA",
+    T_Element_3.NAME AS "QUEST_ACTION",
+    T_Element.NAME AS "IMPERIAL_TILE",
+    T_DQP.EVENT_DATA:item_name::INT AS "ITEM_ID",
+    T_Element_2.NAME AS "ITEM_NAME",
+    SUM(T_DQP.EVENT_DATA:item_amount::INT) AS "QNTY",
+    SUM(T_DQP.EVENT_DATA:hard_currency_earned::INT) AS "GOLD_EARNED",
+    SUM(T_DQP.EVENT_DATA:soft_currency1_earned::INT) AS "FOOD_EARNED",
+    SUM(T_DQP.EVENT_DATA:soft_currency2_earned::INT) AS "WOOD_EARNED",
+    SUM(T_DQP.EVENT_DATA:soft_currency3_earned::INT) AS "STONE_EARNED",
+    SUM(T_DQP.EVENT_DATA:soft_currency4_earned::INT) AS "IRON_EARNED",
+    SUM(T_DQP.EVENT_DATA:soft_currency5_earned::INT) AS "SILVER_EARNED",
+    T_DQP.EVENT_DATA:progress_index01::INT AS "CHAMPION_LEVEL",
+    T_DQP.EVENT_DATA:progress_index02::INT AS "CASTLE_LEVEL"
+
+FROM "ELEPHANT_DB"."MOE"."DAILY_QUEST_PROJECT_INTERACTION_RAW" AS T_DQP
+
+LEFT JOIN
+    "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element
+    ON (T_DQP.EVENT_DATA:imperial_title::INT = T_Element.ID)
+LEFT JOIN
+    "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element_2
+    ON (T_DQP.EVENT_DATA:item_name::INT = T_Element_2.ID)
+LEFT JOIN
+    "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element_3
+    ON (T_DQP.EVENT_DATA:quest_action::INT = T_Element_3.ID)
+LEFT JOIN
+    "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element_4
+    ON (T_DQP.EVENT_DATA:quest_name::INT = T_Element_4.ID)
+LEFT JOIN
+    "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element_5
+    ON (T_DQP.EVENT_DATA:quest_type::INT = T_Element_5.ID)
+
+
+WHERE
+    CLIENT_TIME >= '{st_date}'
+    AND CLIENT_TIME < '{end_date}'
+    AND DATA_CENTER_ID LIKE '{silo}'
+    AND FED_ID = '{account}'
+GROUP BY 
+    DATE,
+    SILO,
+    REALM,
+    FED,
+    QUEST_TYPE,
+    QUEST_NAME,
+    QUEST_PROGRESS,
+    QUEST_DATA,
+    QUEST_ACTION,
+    IMPERIAL_TILE,
+    ITEM_ID,
+    ITEM_NAME,
+    CHAMPION_LEVEL,
+    CASTLE_LEVEL
+
+ORDER BY DATE(T_DQP.CLIENT_TIME) ASC
+
+LIMIT 5000
+;
+'''
