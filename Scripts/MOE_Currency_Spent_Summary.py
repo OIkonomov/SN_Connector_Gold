@@ -22,6 +22,7 @@ SELECT
     SUM(EVENT_DATA:soft_currency3_spent::INT) AS "STONE_SPENT",
     SUM(EVENT_DATA:soft_currency4_spent::INT) AS "IRON_SPENT",
     SUM(EVENT_DATA:soft_currency5_spent::INT) AS "SILVER_SPENT",
+    SUM(EVENT_DATA:soft_currency6_spent::INT) AS "SOCIAL_POINTS_SPENT",
     SUM(EVENT_DATA:soft_currency7_spent::INT) AS "DUCATS_SPENT"
 FROM "ELEPHANT_DB"."MOE"."CURRENCY_SPENT_RAW" AS T_CurrencySpent
 LEFT JOIN
