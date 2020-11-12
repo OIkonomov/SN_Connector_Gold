@@ -1,8 +1,8 @@
 TYPE = "Player"
 CREDENTIAL = "YES"
-FILTER = "REALM"
+FILTER = "NO"
 SILO = "YES"
-REALM = "NO"
+REALM = "YES"
 DATE = "YES"
 
 SQL_REQ =   '''
@@ -40,7 +40,7 @@ WHERE
     AND T_CombatInt.CLIENT_TIME < '{end_date}'
     AND T_CombatInt.DATA_CENTER_ID::STRING LIKE '{silo}'
     AND T_CombatInt.FED_ID = '{account}'
-    AND C_REALM = {filter_value}
+    AND C_REALM = '{realm}'
 
 UNION ALL
 
@@ -80,7 +80,7 @@ WHERE
     AND T_BaseInt.DATA_CENTER_ID::STRING LIKE '{silo}'
     AND T_BaseInt.FED_ID = '{account}'
     AND T_BaseInt.EVENT_DATA:base_int::INT <> 223742
-    AND C_REALM = {filter_value}
+    AND C_REALM = {realm}
       
 UNION ALL
 
@@ -106,7 +106,7 @@ WHERE
     T_ServerState.CLIENT_TIME >= '{st_date}'
     AND T_ServerState.CLIENT_TIME < '{end_date}'
     AND T_ServerState.DATA_CENTER_ID::STRING LIKE '{silo}'
-    AND T_ServerState.REALM_ID::INT = {filter_value}
+    AND T_ServerState.REALM_ID::INT = '{realm}'
 
 UNION ALL
 
