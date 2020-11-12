@@ -1,6 +1,6 @@
 TYPE = "Alliance"
 CREDENTIAL = "NO"
-FILTER = "...TO REALM"
+FILTER = "FROM REALM...TO"
 SILO = "YES"
 REALM = "YES"
 DATE = "YES"
@@ -32,8 +32,8 @@ SELECT
             CLIENT_TIME > '{st_date}'
             AND CLIENT_TIME < '{end_date}'
             AND "SILO" LIKE '{silo}'
-            AND "REALM" >= {realm}
-            AND "REALM" <= {filter_value}
+            AND "REALM" >= {filter_value}
+            AND "REALM" <= {realm}
             AND USER_ID > 0
         GROUP BY 1,2,3) AS T_IN
     LEFT JOIN
