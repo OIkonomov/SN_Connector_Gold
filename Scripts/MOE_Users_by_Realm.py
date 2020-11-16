@@ -1,8 +1,8 @@
 TYPE = "Alliance"
 CREDENTIAL = "NO"
-FILTER = "REALM"
+FILTER = "NO"
 SILO = "YES"
-REALM = "NO"
+REALM = "YES"
 DATE = "YES"
 
 SQL_REQ =   '''
@@ -28,7 +28,7 @@ WHERE
     CLIENT_TIME >= '{st_date}'
       AND CLIENT_TIME < '{end_date}'
       AND "SILO" LIKE '{silo}'
-      AND "REALM" = {filter_value}
+      AND "REALM" = '{realm}'
       AND "DEVICE" > 0
 GROUP BY 1,2,3,4,5
 ORDER BY TOTAL_ACCOUNTS DESC, DEVICE ASC, FED ASC, LAST_SEEN DESC
