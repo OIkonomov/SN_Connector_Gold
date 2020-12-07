@@ -54,7 +54,7 @@ LEFT JOIN
     "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element
     ON (T_InventoryStatus.EVENT_DATA:game_language::INT = T_Element.ID)
 WHERE 
-    T_PlayerConection.CLIENT_TIME > '{st_date}'
+    T_PlayerConection.CLIENT_TIME >= '{st_date}'
       AND T_PlayerConection.CLIENT_TIME < '{end_date}'
       AND "SILO" LIKE '{silo}'
       AND "DEVICE" > 0

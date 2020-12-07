@@ -1,0 +1,46 @@
+TYPE = "Player"
+CREDENTIAL = "YES"
+FILTER = "NO"
+SILO = "YES"
+REALM = "NO"
+DATE = "YES"
+
+SQL_REQ =   '''
+SELECT DISTINCT
+    DATE(T_TLE.CLIENT_TIME) AS "DATE",
+    T_TLE.CLIENT_TIME AS "TIME",
+    T_TLE.DATA_CENTER_ID AS "SILO",
+    T_TLE.EVENT_DATA:realm_id_current::INT AS "REALM",
+    T_TLE.FED_ID AS "FED",
+    T_TLE.EVENT_DATA:all_id::INT AS "ALIANCE_ID",
+    T_Element_3.NAME AS "EVENT_TYPE",
+    T_TLE.EVENT_DATA:event_name::STRING AS "EVENT_NAME",
+    T_TLE.EVENT_DATA:event_type::STRING AS "EVENT_DETAILS",
+    T_TLE.EVENT_DATA:event_bracket::INT AS "BRACKET",
+    T_TLE.EVENT_DATA:criteria_value::INT AS "POSITION",
+    T_Element_2.NAME AS "REWARD_TYPE",
+    T_TLE.EVENT_DATA:hard_currency_earned::INT AS "GOLD_REWARED",
+    T_TLE.EVENT_DATA:item_name::INT AS "ITEM_ID",
+    T_Element.NAME AS "ITEM_NAME",
+    T_TLE.EVENT_DATA:item_amount::INT AS "QNTY",
+    T_TLE.EVENT_DATA:score_objective::STRING AS "SCORE_OBJECTIVE"
+
+
+FROM "ELEPHANT_DB"."MOE"."TIME_LIMITED_EVENT_REWARDS_RAW" AS T_TLE
+
+LEFT JOIN "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element
+    ON (T_TLE.EVENT_DATA:item_name::INT = T_Element.ID)
+LEFT JOIN "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element_2
+    ON (T_TLE.EVENT_DATA:criteria::INT = T_Element_2.ID)
+LEFT JOIN "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element_3
+    ON (T_TLE.EVENT_DATA:criteria_actor::INT = T_Element_3.ID)
+
+WHERE
+    FED = '{account}'
+    AND T_TLE.CLIENT_TIME >= '{st_date}'
+    AND T_TLE.CLIENT_TIME < '{end_date}'
+    
+ORDER BY TIME ASC
+LIMIT 10000
+;
+'''
