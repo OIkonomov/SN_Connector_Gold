@@ -1,7 +1,7 @@
 TYPE = "Player"
 CREDENTIAL = "YES"
 FILTER = "NO"
-SILO = "YES"
+SILO = "NO"
 REALM = "NO"
 DATE = "YES"
 
@@ -56,7 +56,6 @@ LEFT JOIN
 WHERE 
     T_PlayerConection.CLIENT_TIME >= '{st_date}'
       AND T_PlayerConection.CLIENT_TIME < '{end_date}'
-      AND "SILO" LIKE '{silo}'
       AND "DEVICE" > 0
       AND T_PlayerConection.FED_ID = '{account}'
 GROUP BY 1,3,4,5,6,7,8,9,10,11,12,13,14,15
