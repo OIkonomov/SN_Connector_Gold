@@ -1,7 +1,7 @@
 TYPE = "Player"
 CREDENTIAL = "Yes"
 FILTER = "NO"
-SILO = "YES"
+SILO = "NO"
 REALM = "NO"
 DATE = "YES"
 
@@ -38,7 +38,6 @@ LEFT JOIN
       AND T_PlayerConection.USER_ID = T_InventoryStatus.USER_ID
       AND T_InventoryStatus.CLIENT_TIME >= '{st_date}'
       AND T_InventoryStatus.CLIENT_TIME < '{end_date}'
-      AND T_InventoryStatus.DATA_CENTER_ID LIKE '{silo}'
       AND T_InventoryStatus.FED_ID = '{account}'
      )
 LEFT JOIN
@@ -47,7 +46,6 @@ LEFT JOIN
 WHERE
     T_PlayerConection.CLIENT_TIME >= '{st_date}'
     AND T_PlayerConection.CLIENT_TIME < '{end_date}'
-    AND SILO LIKE '{silo}'
     AND FED = '{account}'
     AND DEVICE > 0
 GROUP BY 1,2,5,6,7,8,9,10,11
