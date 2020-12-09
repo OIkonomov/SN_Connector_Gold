@@ -1,6 +1,6 @@
 TYPE = "Alliance"
 CREDENTIAL = "NO"
-FILTER = "ALLIANCE TAG"
+FILTER = "ALLIANCE ID"
 SILO = "YES"
 REALM = "YES"
 DATE = "YES"
@@ -23,7 +23,7 @@ WHERE
   AND DATA_CENTER_ID LIKE '{silo}'
   AND DEVICE_ID > 0
   AND EVENT_DATA:realm_id::INT = {realm}
-  AND EVENT_DATA:all_name_tag::STRING LIKE '{filter_value}'
+  AND EVENT_DATA:all_id::INT = {filter_value}
 GROUP BY 1,2,3,4,5,6,7,9
 ORDER BY (LAST_SEEN) DESC
 LIMIT 1000
