@@ -36,7 +36,7 @@ WHERE
     AND T_ArmyInt.FED_ID = '{account}'
     AND T_ArmyInt.EVENT_DATA:army_int = '223795'
 GROUP BY 1,2,4,5,6,11
-ORDER BY DATE,HOUR
+ORDER BY DATE,HOUR ASC
 LIMIT 10000
 ;
 '''
