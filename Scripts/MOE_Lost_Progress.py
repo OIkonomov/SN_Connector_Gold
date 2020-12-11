@@ -1,7 +1,7 @@
 TYPE = "Player"
 CREDENTIAL = "YES"
 FILTER = "NO"
-SILO = "YES"
+SILO = "NO"
 REALM = "NO"
 DATE = "YES"
 
@@ -24,13 +24,11 @@ LEFT JOIN
     ON (T_InventoryStatus.USER_ID = T_PlayerConection.USER_ID
        AND T_PlayerConection.CLIENT_TIME >= '{st_date}'
        AND T_PlayerConection.CLIENT_TIME < '{end_date}'
-       AND T_PlayerConection.DATA_CENTER_ID LIKE '{silo}'
        AND T_PlayerConection.FED_ID = '{account}')
 
 WHERE
     T_InventoryStatus.SERVER_TIME > '{st_date}'
     AND T_InventoryStatus.SERVER_TIME < '{end_date}'
-    AND T_InventoryStatus.DATA_CENTER_ID LIKE '{silo}'
     AND T_InventoryStatus.FED_ID = '{account}'
     
 GROUP BY
