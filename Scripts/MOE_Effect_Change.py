@@ -1,7 +1,7 @@
 TYPE = "Player"
 CREDENTIAL = "YES"
 FILTER = "NO"
-SILO = "YES"
+SILO = "NO"
 REALM = "NO"
 DATE = "YES"
 
@@ -24,7 +24,6 @@ FROM
 WHERE
     CLIENT_TIME > '{st_date}'
     AND CLIENT_TIME < '{end_date}'
-    AND DATA_CENTER_ID LIKE '{silo}'
     AND FED_ID = '{account}'
     
 ORDER BY TIME ASC

@@ -1,8 +1,8 @@
 TYPE = "Alliance"
 CREDENTIAL = "NO"
 FILTER = "PLAYER_ID"
-SILO = "YES"
-REALM = "YES"
+SILO = "NO"
+REALM = "NO"
 DATE = "YES"
 
 SQL_REQ = '''
@@ -20,8 +20,6 @@ FROM "ELEPHANT_DB"."MOE"."INVENTORY_STATUS_RAW"
 WHERE
     CLIENT_TIME > '{st_date}'
     AND CLIENT_TIME < '{end_date}'
-    AND DATA_CENTER_ID LIKE '{silo}'
-    AND event_data:realm_id::INT = '{realm}'
     AND event_data:game_player_id::INT = '{filter_value}'
 GROUP BY 3,4,5,6
 ORDER BY 2 DESC

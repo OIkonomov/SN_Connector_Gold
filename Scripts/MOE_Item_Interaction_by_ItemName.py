@@ -1,7 +1,7 @@
 TYPE = "Player"
 CREDENTIAL = "YES"
 FILTER = "ITEM_NAME"
-SILO = "YES"
+SILO = "NO"
 REALM = "NO"
 DATE = "YES"
 
@@ -23,7 +23,6 @@ FROM "ELEPHANT_DB"."MOE"."ITEM_INTERACTION_RAW" AS T_II
 WHERE
     DATE_TIME > '{st_date}'
     AND DATE_TIME < '{end_date}'
-    AND DATA_CENTER_ID LIKE '{silo}'
     AND FED = '{account}'
     ORDER BY 2 ASC
     LIMIT 1000

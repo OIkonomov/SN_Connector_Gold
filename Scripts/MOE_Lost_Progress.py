@@ -27,7 +27,7 @@ LEFT JOIN
        AND T_PlayerConection.FED_ID = '{account}')
 
 WHERE
-    T_InventoryStatus.SERVER_TIME > '{st_date}'
+    T_InventoryStatus.SERVER_TIME >= '{st_date}'
     AND T_InventoryStatus.SERVER_TIME < '{end_date}'
     AND T_InventoryStatus.FED_ID = '{account}'
     

@@ -1,7 +1,7 @@
 TYPE = "Player"
 CREDENTIAL = "YES"
 FILTER = "NO"
-SILO = "YES"
+SILO = "NO"
 REALM = "NO"
 DATE = "YES"
 
@@ -32,7 +32,6 @@ LEFT JOIN
 WHERE
     T_ArmyInt.CLIENT_TIME > '{st_date}'
     AND T_ArmyInt.CLIENT_TIME < '{end_date}'
-    AND T_ArmyInt.DATA_CENTER_ID LIKE '{silo}'
     AND T_ArmyInt.FED_ID = '{account}'
     AND T_ArmyInt.EVENT_DATA:army_int = '223795'
 GROUP BY 1,2,4,5,6,11

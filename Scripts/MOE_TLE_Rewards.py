@@ -1,7 +1,7 @@
 TYPE = "Player"
 CREDENTIAL = "YES"
 FILTER = "NO"
-SILO = "YES"
+SILO = "NO"
 REALM = "NO"
 DATE = "YES"
 
