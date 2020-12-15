@@ -40,7 +40,6 @@ WHERE
     AND T_CombatInt.CLIENT_TIME < '{end_date}'
     AND T_CombatInt.DATA_CENTER_ID::STRING LIKE '{silo}'
     AND T_CombatInt.FED_ID = '{account}'
-    AND C_REALM = '{realm}'
 
 UNION ALL
 
@@ -80,7 +79,6 @@ WHERE
     AND T_BaseInt.DATA_CENTER_ID::STRING LIKE '{silo}'
     AND T_BaseInt.FED_ID = '{account}'
     AND T_BaseInt.EVENT_DATA:base_int::INT <> 223742
-    AND C_REALM = {realm}
       
 UNION ALL
 
