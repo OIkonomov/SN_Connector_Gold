@@ -1,7 +1,7 @@
 TYPE = "Alliance"
 CREDENTIAL = "NO"
 FILTER = "NO"
-SILO = "NO"
+SILO = "YES"
 REALM = "NO"
 DATE = "YES"
 
