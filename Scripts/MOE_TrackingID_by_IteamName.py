@@ -1,6 +1,6 @@
 TYPE = "Alliance"
 CREDENTIAL = "NO"
-FILTER = "TRACKING_ID"
+FILTER = "ITEM NAME"
 SILO = "NO"
 REALM = "NO"
 DATE = "NO"
@@ -13,7 +13,7 @@ FROM
     "ELEPHANT_DB"."DIMENSIONS"."ELEMENT"
 
 WHERE
-    TRACKING_ID = {filter_value}
+    LOWER (NAME) LIKE LOWER('%{filter_value}%')
 ORDER BY
     ITEM_NAME ASC
 ;
