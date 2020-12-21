@@ -1,0 +1,30 @@
+TYPE = "Player"
+CREDENTIAL = "YES"
+FILTER = "NO"
+SILO = "NO"
+REALM = "NO"
+DATE = "YES"
+
+SQL_REQ = '''
+SELECT
+    MIN(DATE(CLIENT_TIME))AS "FIRST_REFUND",
+    MAX(DATE(CLIENT_TIME)) AS "LAST_REFUND",
+    DATA_CENTER_ID AS "SILO",
+    FED_ID AS "FED",
+    SUM(EVENT_DATA:hard_currency_spent::INT) AS "TOTAL_GOLD"
+FROM
+    "ELEPHANT_DB"."MOE"."RESOURCE_CHANGE_RAW"
+WHERE
+    CLIENT_TIME >= '{st_date}'
+    AND CLIENT_TIME < '{end_date}'
+    AND FED = '{account}'
+    AND EVENT_DATA:change_int::INT = '354526'
+    AND EVENT_DATA:hard_currency_spent::INT > 0
+   
+GROUP BY 
+    SILO,
+    FED
+ORDER BY LAST_REFUND DESC,TOTAL_GOLD DESC
+LIMIT 10000
+;
+'''
