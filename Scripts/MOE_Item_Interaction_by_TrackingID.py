@@ -25,6 +25,6 @@ WHERE
     AND FED = '{account}'
     AND EVENT_DATA :item_name::INT = '{filter_value}'
     ORDER BY 2 ASC
-    LIMIT 1000
+    LIMIT 10000
     ;
     '''
