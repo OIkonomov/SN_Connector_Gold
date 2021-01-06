@@ -35,7 +35,7 @@ LEFT JOIN
     "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" AS T_Element_3
     ON (T_CurrencySpent.EVENT_DATA:item_name::INT = T_Element_3.ID)
 WHERE
-    AND CLIENT_TIME >= '{st_date}'
+    CLIENT_TIME >= '{st_date}'
     AND CLIENT_TIME < '{end_date}'
     AND FED_ID = '{account}'
 GROUP BY DATE,ACTION,ITEM_ID,ITEM_NAME,SILO,COUNTRY,DEVICE,FED
