@@ -13,6 +13,7 @@ SELECT DISTINCT
     EVENT_DATA:game_player_id::INT AS "PLAYER_ID",
     FED_ID AS "FED",
     USER_ID AS "DEVICE",
+    ANON_ID AS "ANON_ID",
     CONCAT(IFNULL(T_PlayerConection.EVENT_DATA:clientip::STRING,SUBSTRING(try_base64_decode_string(TO_VARCHAR(REPLACE(REPLACE(REPLACE((T_PlayerConection.EVENT_DATA:sessiondata::STRING), '-', '='), '_', '/'),'.','+'))), CHARINDEX(':',try_base64_decode_string(TO_VARCHAR(REPLACE(REPLACE(REPLACE((T_PlayerConection.EVENT_DATA:sessiondata::STRING), '-', '='), '_', '/'),'.','+')))) + LEN(':'), LEN(try_base64_decode_string(TO_VARCHAR(REPLACE(REPLACE(REPLACE((T_PlayerConection.EVENT_DATA:sessiondata::STRING), '-', '='), '_', '/'),'.','+'))))))) AS IP,
     COUNT(DISTINCT FED) OVER(PARTITION BY DEVICE) AS "TOTAL_ACC_PER_DEVICE",
     COUNT(DISTINCT FED) OVER(PARTITION BY IP) AS "TOTAL_ACC_PER_IP",
@@ -32,7 +33,7 @@ WHERE
       AND "SILO" LIKE '{silo}'
       AND "REALM" = '{realm}'
       AND "DEVICE" > 0
-GROUP BY SILO, REALM, IP, PLAYER_ID, FED, DEVICE
+GROUP BY SILO, REALM, IP, PLAYER_ID, FED, DEVICE, ANON_ID
 ORDER BY TOTAL_ACC_PER_IP DESC, TOTAL_ACC_PER_DEVICE DESC, DEVICE ASC, FED ASC, LAST_SEEN DESC
 LIMIT 100000
 ;
