@@ -1,0 +1,52 @@
+TYPE = "Alliance"
+CREDENTIAL = "NO"
+FILTER = "NO"
+SILO = "YES"
+REALM = "YES"
+DATE = "YES"
+
+SQL_REQ = '''
+
+SELECT DISTINCT
+    MIN(T_PlayerConection.CLIENT_TIME) AS "CREATED",
+    MAX(T_PlayerConection.CLIENT_TIME) AS "LAST_SEEN",
+    DATEDIFF(DAY, CREATED::timestamp, LAST_SEEN::timestamp) AS "DAYS_PLAYED",
+    T_PlayerConection.DATA_CENTER_ID AS "SILO",
+    T_PlayerConection.EVENT_DATA:realm_id::INT AS "REALM",
+    T_PlayerConection.FED_ID AS "FED",
+    MAX(T_PlayerConection.EVENT_DATA:progress_index02::INT) AS "CASTLE_LEVEL",
+    MAX(T_IAP.REVENUE) AS "REVENUE",
+    MAX(T_IAP.TOTAL_TRASACTIONS) AS "TOTAL_TRASACTIONS",
+    MAX(T_IAP.AVG_TR_VALUE) AS "AVG_TR_VALUE",
+    COUNT(DISTINCT FED) OVER (PARTITION BY CASTLE_LEVEL) AS "ACC_PER_LEVEL",
+    COUNT(DISTINCT FED) OVER () AS "TOTAL_ACCOUNTS",
+    TO_NUMBER((ACC_PER_LEVEL/TOTAL_ACCOUNTS)*100,10,2) AS "%_LEVEL_SHARE",
+    MAX(T_PlayerConection.EVENT_DATA:consumable_power_balance::INT) AS "ARMY_MIGHT",
+    MAX(T_PlayerConection.EVENT_DATA:permanent_power_balance::INT) AS "CITY_MIGHT",
+    ARMY_MIGHT + CITY_MIGHT AS "TOTAL_MIGHT"
+FROM
+    "ELEPHANT_DB"."MOE"."PLAYER_CONNECTION_REPORT_RAW" AS T_PlayerConection
+
+LEFT JOIN (SELECT
+              FED_ID AS "FED_I",
+              TO_NUMBER(SUM(REVENUE_EUR),10,2) AS "REVENUE",
+              COUNT(DISTINCT TRANSACTION_ID) AS "TOTAL_TRASACTIONS",
+              TO_NUMBER(REVENUE/TOTAL_TRASACTIONS,10,2) AS "AVG_TR_VALUE"
+            FROM "ELEPHANT_DB"."MOE"."IAP"
+            WHERE
+              SERVER_TIME >= '{st_date}'
+              AND SERVER_TIME < '{end_date}'
+            GROUP BY FED_I) AS T_IAP
+        ON (T_PlayerConection.FED_ID = FED_I)
+
+WHERE
+  T_PlayerConection.CLIENT_TIME >= '{st_date}'
+  AND T_PlayerConection.CLIENT_TIME < '{end_date}'
+  AND "SILO" LIKE '{silo}'
+  AND "REALM" = {realm}
+GROUP BY SILO, REALM, FED
+
+ORDER BY CASTLE_LEVEL DESC
+LIMIT 100000
+;
+'''
