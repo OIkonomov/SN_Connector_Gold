@@ -39,6 +39,7 @@ LEFT JOIN "ELEPHANT_DB"."DIMENSIONS"."COUNTRY" AS T_Country
 WHERE
     T_PlayerConection.CLIENT_TIME >= '{st_date}'
     AND T_PlayerConection.CLIENT_TIME < '{end_date}'
+    AND DEVICE > 0
     AND "IP" LIKE '{filter_value}'
 GROUP BY 1,2,3,4,5,8,9,10,11
 ORDER BY LAST_SEEN DESC
