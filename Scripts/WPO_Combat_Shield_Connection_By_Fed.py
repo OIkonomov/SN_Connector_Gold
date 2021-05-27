@@ -94,6 +94,6 @@ C.ITEM_NAME as "Item Used"
 FROM "ELEPHANT_DB"."WPO"."HOMEBASE_INTERACTION" as C
 LEFT JOIN "ELEPHANT_DB"."DIMENSIONS"."ELEMENT" elem2 ON (C.EVENT_ID = elem2.ID)
 WHERE DATE(C.CLIENT_TIME) >= '{st_date}' AND DATE(C.CLIENT_TIME) <= '{end_date}' and C.FED_ID = '{account}' and (C.HOMEBASE_INT = 'Cloak Activated' or C.HOMEBASE_INT = 'Cloak Re-Activated' or C.HOMEBASE_INT = 'Shield Activated' or C.HOMEBASE_INT = 'Shield Cancelled by Action' or C.HOMEBASE_INT = 'Shield Re-Activated')
-Order by 1,2,3,4,5,6,7,8
+Order by 5
 ;
 '''
