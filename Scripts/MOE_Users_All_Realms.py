@@ -2,7 +2,7 @@ TYPE = "Alliance"
 CREDENTIAL = "NO"
 FILTER = "MORE THAN X ACCOUNTS PER IP"
 SILO = "YES"
-REALM = "YES"
+REALM = "NO"
 DATE = "YES"
 
 SQL_REQ =   '''
@@ -74,7 +74,6 @@ FROM
         T_PlayerConection.CLIENT_TIME >= '{st_date}'
           AND T_PlayerConection.CLIENT_TIME < '{end_date}'
           AND "SILO" LIKE '{silo}'
-          AND "REALMS" = {realm}
           AND "DEVICES" > 0
     GROUP BY 
               DATE_TIMES,

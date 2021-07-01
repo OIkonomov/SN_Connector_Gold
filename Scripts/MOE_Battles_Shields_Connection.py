@@ -36,7 +36,7 @@ LEFT JOIN
     ON (T_CombatInt.EVENT_DATA:battle_target::INT = T_Element_3.ID)
 
 WHERE 
-    T_CombatInt.CLIENT_TIME > '{st_date}'
+    T_CombatInt.CLIENT_TIME >= '{st_date}'
     AND T_CombatInt.CLIENT_TIME < '{end_date}'
     AND T_CombatInt.DATA_CENTER_ID::STRING LIKE '{silo}'
     AND T_CombatInt.FED_ID = '{account}'
@@ -74,7 +74,7 @@ LEFT JOIN
     ON (T_BaseInt.EVENT_DATA:shield_type::INT = T_Element_6.ID)
 
 WHERE 
-    T_BaseInt.CLIENT_TIME > '{st_date}'
+    T_BaseInt.CLIENT_TIME >= '{st_date}'
     AND T_BaseInt.CLIENT_TIME < '{end_date}'
     AND T_BaseInt.DATA_CENTER_ID::STRING LIKE '{silo}'
     AND T_BaseInt.FED_ID = '{account}'
