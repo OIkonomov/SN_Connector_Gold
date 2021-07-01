@@ -1,9 +1,10 @@
 
 stylesheet = 'Black'
+font_size = 'original_font'
 user = ''
 password = ''
 account = ''
 database = 'ELEPHANT_DB'
 role = 'SOF_RAW_DATA'
-schema = 'MOE'
 open_folder = 'NO'
+web_login = 'LOCAL_USER'
