@@ -57,6 +57,6 @@ SQL_REQ = '''
             Effect.EFFECT_TYPE as "Effect type"
             FROM "ELEPHANT_DB"."WPO"."EFFECT_CHANGE" as Effect
             WHERE DATE(Effect.CLIENT_TIME) >= '{st_date}' AND DATE(Effect.CLIENT_TIME) <= '{end_date}' and Effect.FED_ID = '{account}' AND Effect.EFFECT_NAME = 'Bulletproof Battleplan Active Skill'
-        ORDER BY 1,4,5
+        ORDER BY 4
 ;
 '''

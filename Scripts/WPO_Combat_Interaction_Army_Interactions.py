@@ -47,6 +47,6 @@ SELECT
     NULL as STRENGTH_LOST
     FROM "ELEPHANT_DB"."WPO"."ARMY_INTERACTION" as Army
 WHERE DATE(Army.CLIENT_TIME) >= '{st_date}' AND DATE(Army.CLIENT_TIME) <= '{end_date}' and Army.FED_ID = '{account}'
-ORDER BY 1,4,5,6
+ORDER BY 5
 ;
 '''

@@ -12,7 +12,7 @@ A.EVENT_DATA:reward_name::STRING as "Reward name",
 A.EVENT_DATA:reward_amount::INT as "Reward amount",
 A.FED_ID as "Fed id",
 A.EVENT_DATA:action_id::string as "Event"
-FROM "CC_DB"."WPO"."GOLD" as A
+FROM "TRACKING_DB"."WPO"."GOLD" as A
 WHERE DATE(A.SERVER_TIME) >= '{st_date}' AND DATE(A.SERVER_TIME) <= '{end_date}' AND A.FED_ID = '{account}' and EVENT_ID = 51855 
 UNION
 SELECT
