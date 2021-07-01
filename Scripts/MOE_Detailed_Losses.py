@@ -65,6 +65,7 @@ SELECT
         SILO,
         REALM
     ORDER BY
+        DATE ASC,
         C_ACTION DESC,
         L_TYPE ASC, 
         TROOPS ASC,
