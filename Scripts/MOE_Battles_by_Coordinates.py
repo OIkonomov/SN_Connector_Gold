@@ -11,7 +11,7 @@ WHERE
   END_COORD = '{filter_value}'
     AND CLIENT_TIME > '{st_date}'
     AND CLIENT_TIME < '{end_date}'
-    AND REALM_ID = {realm}
+    AND REALM_ID_CURRENT = {realm}
 ORDER BY CLIENT_TIME
 LIMIT 10000
 ;
